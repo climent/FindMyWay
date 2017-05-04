@@ -27,8 +27,8 @@ extern byte numEffects;
 byte cycleHue = 0;
 byte cycleHueCount = 0;
 void hueCycle(byte incr) {
-    cycleHueCount = 0;
-    cycleHue+=incr;
+  cycleHueCount = 0;
+  cycleHue += incr;
 }
 
 // Set every LED in the array to a specified color
@@ -47,8 +47,8 @@ void fadeAll(byte fadeIncr) {
 
 void fadeTo(CRGB basecolor, byte fadeIncr) {
   for (int i = 0; i < NUM_LEDS; i++) {
-      leds[i] = leds[i].fadeToBlackBy(fadeIncr);
-      leds[i] |= basecolor;
+    leds[i] = leds[i].fadeToBlackBy(fadeIncr);
+    leds[i] |= basecolor;
   }
 }
 
@@ -56,54 +56,54 @@ void fadeTo(CRGB basecolor, byte fadeIncr) {
 
 // Shift all pixels by one, right or left (0 or 1)
 void scrollArray(byte scrollDir) {
-  
-    byte scrollX = 0;
-    for (byte x = 1; x < kMatrixWidth; x++) {
-      if (scrollDir == 0) {
-        scrollX = kMatrixWidth - x;
-      } else if (scrollDir == 1) {
-        scrollX = x - 1;
-      }
-      
-      for (byte y = 0; y < kMatrixHeight; y++) {
-        leds[XY(scrollX,y)] = leds[XY(scrollX + scrollDir*2 - 1,y)];
-      }
+
+  byte scrollX = 0;
+  for (byte x = 1; x < kMatrixWidth; x++) {
+    if (scrollDir == 0) {
+      scrollX = kMatrixWidth - x;
+    } else if (scrollDir == 1) {
+      scrollX = x - 1;
     }
-  
+
+    for (byte y = 0; y < kMatrixHeight; y++) {
+      leds[XY(scrollX, y)] = leds[XY(scrollX + scrollDir * 2 - 1, y)];
+    }
+  }
+
 }
 
 
 // Pick a random palette from a list
 void selectRandomPalette() {
 
-  switch(random8(8)) {
+  switch (random8(8)) {
     case 0:
-    currentPalette = CloudColors_p;
-    break;
-    
+      currentPalette = CloudColors_p;
+      break;
+
     case 1:
-    currentPalette = LavaColors_p;
-    break;
-    
+      currentPalette = LavaColors_p;
+      break;
+
     case 2:
-    currentPalette = OceanColors_p;
-    break;
-    
+      currentPalette = OceanColors_p;
+      break;
+
     case 4:
-    currentPalette = ForestColors_p;
-    break;
-    
+      currentPalette = ForestColors_p;
+      break;
+
     case 5:
-    currentPalette = RainbowColors_p;
-    break;
-    
+      currentPalette = RainbowColors_p;
+      break;
+
     case 6:
-    currentPalette = PartyColors_p;
-    break;
-    
+      currentPalette = PartyColors_p;
+      break;
+
     case 7:
-    currentPalette = HeatColors_p;
-    break;
+      currentPalette = HeatColors_p;
+      break;
   }
 
 }
@@ -121,7 +121,7 @@ const CRGB holly[2] = {CRGB::Red, CRGB::Green};
 CRGB colorCycle(byte colorGroup) {
   static byte colorIndex = 0;
 
-  switch(colorGroup) {
+  switch (colorGroup) {
     case CANDYCANE:
       {
         colorIndex++;
@@ -146,10 +146,10 @@ CRGB colorCycle(byte colorGroup) {
 }
 
 void cyclePattern() {
-      cycleMillis = currentMillis;
-      if (++currentEffect >= numEffects) currentEffect = 0; // loop to start of effect list
-      effectInit = false; // trigger effect initialization when new effect is selected
-      fadingActive = false;
+  cycleMillis = currentMillis;
+  if (++currentEffect >= numEffects) currentEffect = 0; // loop to start of effect list
+  effectInit = false; // trigger effect initialization when new effect is selected
+  fadingActive = false;
 }
 
 
@@ -195,11 +195,11 @@ void loadCharBuffer(byte character) {
   } else {
     mappedCharacter = 96; // unknown character block
   }
-  
+
   for (byte i = 0; i < 5; i++) {
-    charBuffer[i] = pgm_read_byte(Font[mappedCharacter]+i);
+    charBuffer[i] = pgm_read_byte(Font[mappedCharacter] + i);
   }
-  
+
 }
 
 // Fetch a character value from a text string in flash
@@ -213,11 +213,11 @@ void updateEEPROM(byte location, byte value) {
 }
 
 void saveEEPROMvals() {
-      updateEEPROM(0, 99);
-      updateEEPROM(1, currentEffect);
-      updateEEPROM(2, autoCycle);
-      updateEEPROM(3, currentBrightness);
-      updateEEPROM(4, runMode);  
+  updateEEPROM(0, 99);
+  updateEEPROM(1, currentEffect);
+  updateEEPROM(2, autoCycle);
+  updateEEPROM(3, currentBrightness);
+  updateEEPROM(4, runMode);
 }
 
 // Write settings to EEPROM if necessary

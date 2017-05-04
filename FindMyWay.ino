@@ -78,8 +78,7 @@
 
 // Normal patterns
 functionList effectListOne[] = {
-    fireworks,
-//    giftbox,
+  fireworks,
   blurpattern,
   blurpattern2,
   sinisterSpiral,
@@ -87,7 +86,7 @@ functionList effectListOne[] = {
   snow,
   waves,
   waves2,
-//  waves3,
+  //  waves3,
   xmasThreeDee,
   candycaneSlantbars,
   blurpattern,
@@ -96,7 +95,6 @@ functionList effectListOne[] = {
   rider,
   plasma,
   slantBars,
-  threeSine,
   confetti,
   sideRain,
   colorFill,

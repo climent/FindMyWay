@@ -80,7 +80,7 @@ byte buttonStatus(byte buttonNum) {
 }
 
 void doButtons() {
-  
+
   // Check the mode button (for switching between effects)
   switch (buttonStatus(0)) {
 
@@ -117,6 +117,6 @@ void doButtons() {
       break;
 
   }
-  
+
 }
 

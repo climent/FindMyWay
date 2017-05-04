@@ -90,7 +90,6 @@ void rider() {
   }
 
   riderPos++; // byte wraps to 0 at 255, triwave8 is also 0-255 periodic
-
 }
 
 
@@ -109,7 +108,6 @@ void glitter() {
       leds[XY(x, y)] = CHSV(cycleHue, 255, random8(5) * 63);
     }
   }
-
 }
 
 
@@ -161,8 +159,6 @@ void colorFill() {
     if (currentDirection > 3) currentDirection = 0;
     effectDelay = 300; // wait a little bit longer after completing a fill
   }
-
-
 }
 
 // Emulate 3D anaglyph glasses
@@ -188,7 +184,6 @@ void threeDee() {
 
   leds[XY(6, 0)] = CRGB::Black;
   leds[XY(9, 0)] = CRGB::Black;
-
 }
 
 // Random pixels scroll sideways, uses current hue
@@ -247,7 +242,6 @@ void slantBars() {
   }
 
   slantPos -= 4;
-
 }
 
 
@@ -338,8 +332,6 @@ void scrollText(byte message, byte style, CRGB fgColor, CRGB bgColor, byte repea
     loadCharBuffer(nextChar);
     currentChar = nextChar;
   }
-
-
 }
 
 
@@ -483,10 +475,8 @@ void xmasThreeDee() {
       }
     }
   }
-
   //  leds[XY(6, 0)] = CRGB::Black;
   //  leds[XY(9, 0)] = CRGB::Black;
-
 }
 
 
@@ -518,7 +508,6 @@ void snow() {
     if (tempY < kMatrixHeight) leds[deg(XY(i, tempY))] = snowColor % dim8_raw(tempRem);
     if (tempY > kMatrixHeight) snowCols[i] = 0;
   }
-
 }
 
 
@@ -541,42 +530,6 @@ void candycaneSlantbars() {
   }
 
   slantPos -= 4;
-
-}
-
-// Draw a thing that sort of looks like a gift-wrapped box with a bow
-void giftbox() {
-  // startup tasks
-  if (effectInit == false) {
-    effectInit = true;
-    effectDelay = 50;
-    currentPalette = PartyColors_p;
-  }
-
-  fillAll(CRGB(0, 50, 0));
-
-  byte numOrnaments = random8(4, 12);
-  CRGB ornamentColor = CRGB::Red;
-  for (byte i = 0; i < numOrnaments; i++) {
-    byte randomX = random8(0, kMatrixWidth);
-    byte randomY = random8(0, kMatrixHeight);
-    leds[XY(randomX, randomY)] = CRGB(127, 127, 0);
-  }
-
-
-  for (byte j = 0; j < kMatrixWidth; j++) {
-    leds[XY(j, 2)] = CRGB::Red;
-  }
-
-  for (byte k = 0; k < kMatrixHeight; k++) {
-    leds[XY(3, k)] = CRGB::Red;
-  }
-
-  leds[XY(2, 1)] = CRGB::DarkRed;
-  leds[XY(2, 3)] = CRGB::DarkRed;
-  leds[XY(4, 1)] = CRGB::DarkRed;
-  leds[XY(4, 3)] = CRGB::DarkRed;
-
 
 }
 
@@ -622,6 +575,12 @@ void checkerboard() {
 
 void blurpattern()
 {
+  if (effectInit == false) {
+    effectInit = true;
+    effectDelay = 10;
+    fadingActive = false;
+  }
+
   // Apply some blurring to whatever's already on the matrix
   // Note that we never actually clear the matrix, we just constantly
   // blur it repeatedly.  Since the blurring is 'lossy', there's
@@ -661,16 +620,16 @@ void blurpattern2()
   // Note that we never actually clear the matrix, we just constantly
   // blur it repeatedly.  Since the blurring is 'lossy', there's
   // an automatic trend toward black -- by design.
-  uint8_t blurAmount = dim8_raw( beatsin8(3,64,64) );
+  uint8_t blurAmount = dim8_raw( beatsin8(3, 64, 64) );
   blur2d( leds, kMatrixWidth, kMatrixWidth, blurAmount);
 
-  // Use two out-of-sync sine waves
-  uint8_t  i = beatsin16(  91/2, kBorderWidth, kSquareWidth-kBorderWidth);
-  uint8_t  j = beatsin16( 109/2, kBorderWidth, kSquareWidth-kBorderWidth);
-  uint8_t  k = beatsin16(  73/2, kBorderWidth, kSquareWidth-kBorderWidth);
-  
+  // Use three out-of-sync sine waves
+  uint8_t  i = beatsin16(  91 / 2, kBorderWidth, kSquareWidth - kBorderWidth);
+  uint8_t  j = beatsin16( 109 / 2, kBorderWidth, kSquareWidth - kBorderWidth);
+  uint8_t  k = beatsin16(  73 / 2, kBorderWidth, kSquareWidth - kBorderWidth);
+
   // The color of each point shifts over time, each at a different speed.
-  uint16_t ms = millis();  
+  uint16_t ms = millis();
   leds[XY( i, j)] += CHSV( ms / 29, 200, 255);
   leds[XY( j, k)] += CHSV( ms / 41, 200, 255);
   leds[XY( k, i)] += CHSV( ms / 73, 200, 255);
