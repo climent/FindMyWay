@@ -651,29 +651,32 @@ const uint8_t kSquareWidth = 16;
 
 void blurpattern2()
 {
+  if (effectInit == false) {
+    effectInit = true;
+    effectDelay = 10;
+    fadingActive = false;
+  }
+
   // Apply some blurring to whatever's already on the matrix
   // Note that we never actually clear the matrix, we just constantly
   // blur it repeatedly.  Since the blurring is 'lossy', there's
   // an automatic trend toward black -- by design.
-  uint8_t blurAmount = dim8_raw( beatsin8(3,64,192) );
+  uint8_t blurAmount = dim8_raw( beatsin8(3,64,64) );
   blur2d( leds, kMatrixWidth, kMatrixWidth, blurAmount);
 
   // Use two out-of-sync sine waves
-  uint8_t  i = beatsin8(  91, kBorderWidth, kSquareWidth-kBorderWidth);
-  uint8_t  j = beatsin8( 109, kBorderWidth, kSquareWidth-kBorderWidth);
-  uint8_t  k = beatsin8(  73, kBorderWidth, kSquareWidth-kBorderWidth);
+  uint8_t  i = beatsin16(  91/2, kBorderWidth, kSquareWidth-kBorderWidth);
+  uint8_t  j = beatsin16( 109/2, kBorderWidth, kSquareWidth-kBorderWidth);
+  uint8_t  k = beatsin16(  73/2, kBorderWidth, kSquareWidth-kBorderWidth);
   
   // The color of each point shifts over time, each at a different speed.
   uint16_t ms = millis();  
   leds[XY( i, j)] += CHSV( ms / 29, 200, 255);
   leds[XY( j, k)] += CHSV( ms / 41, 200, 255);
   leds[XY( k, i)] += CHSV( ms / 73, 200, 255);
-  
-  FastLED.show();
 }
 
 void waves() {
-
   // startup tasks
   if (effectInit == false) {
     effectInit = true;
