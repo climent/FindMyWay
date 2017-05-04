@@ -556,6 +556,7 @@ void checkerboard() {
     effectInit = true;
     effectDelay = 10;
     currentPalette = checkermap_gp;
+    fadingActive = false;
   }
 
   checkerFader += 2;
@@ -636,6 +637,7 @@ void blurpattern2()
 }
 
 void waves() {
+
   // startup tasks
   if (effectInit == false) {
     effectInit = true;
@@ -660,6 +662,15 @@ void waves() {
 } // loop()
 
 void waves2() {
+
+  // startup tasks
+  if (effectInit == false) {
+    effectInit = true;
+    effectDelay = 5;
+    fadingActive = true;
+    fadeBaseColor = CRGB::Black;
+  }
+
   fadeAll(1);
   uint8_t blurAmount = dim8_raw( beatsin8(3, 64, 192) );      // A sinewave at 3 Hz with values ranging from 64 to 192.
   blurAmount = 10;
@@ -677,9 +688,17 @@ void waves2() {
   leds[deg((j + k) / 2)] = CHSV( ms / 41, 200, 255);
   leds[deg((k + i) / 2)] = CHSV( ms / 73, 200, 255);
   //  leds[deg((k + i + j) / 3)] = CHSV( ms / 53, 200, 255);
-} // loop()
+}
 
 void waves3() {
+
+  // startup tasks
+  if (effectInit == false) {
+    effectInit = true;
+    effectDelay = 5;
+    fadingActive = false;
+  }
+
   fadeAll(1);
   uint8_t blurAmount = dim8_raw( beatsin8(3, 64, 192) );      // A sinewave at 3 Hz with values ranging from 64 to 192.
   blurAmount = 10;
@@ -697,13 +716,10 @@ void waves3() {
   leds[deg((j + k) / 2)] = CHSV( ms / 41, 200, 255);
   leds[deg((k + i) / 2)] = CHSV( ms / 73, 200, 255);
   //  leds[deg((k + i + j) / 3)] = CHSV( ms / 53, 200, 255);
-} // loop()
-
-byte pulseWaveTick = 0;
-//const uint8_t kMatrixWidth = 16;
-//const uint8_t kMatrixHeight = 16;
+}
 
 //Play with these values to customize the spiral
+byte pulseWaveTick = 0;
 byte vert = 1; //down (use -1 for up)
 byte wavelength = 8;
 byte frequencyMultiplier = 1;
@@ -712,10 +728,13 @@ byte rFreq = 4;
 
 void sinisterSpiral()
 {
+  // startup tasks
   if (effectInit == false) {
     effectInit = true;
     effectDelay = 5;
+    fadingActive = false;
   }
+
   uint16_t ms = millis();
 
   //Pixels up
