@@ -718,16 +718,17 @@ void waves3() {
   //  leds[deg((k + i + j) / 3)] = CHSV( ms / 53, 200, 255);
 }
 
-//Play with these values to customize the spiral
-byte pulseWaveTick = 0;
-byte vert = 1; //down (use -1 for up)
-byte wavelength = 8;
-byte frequencyMultiplier = 1;
-byte hFreq = 7;
-byte rFreq = 4;
 
 void sinisterSpiral()
 {
+  //Play with these values to customize the spiral
+  static byte pulseWaveTick = 0;
+  static byte vert = 1; //down (use -1 for up)
+  static byte wavelength = 8;
+  static byte frequencyMultiplier = 1;
+  static byte hFreq = 7;
+  static byte rFreq = 4;
+
   // startup tasks
   if (effectInit == false) {
     effectInit = true;
@@ -762,3 +763,45 @@ void sinisterSpiral()
 
   pulseWaveTick = pulseWaveTick + 8;
 }
+
+void matrixConsole() {
+  EVERY_N_MILLIS(75) // falling speed
+  {
+    // move code downward
+    // start with lowest row to allow proper overlapping on each column
+    for (int8_t row = kMatrixHeight - 1; row >= 0; row--)
+    {
+      for (int8_t col = 0; col < kMatrixWidth; col++)
+      {
+        if (leds[deg(XY(col, row))] == CRGB(175, 255, 175))
+        {
+          leds[deg(XY(col, row))] = CRGB(27, 130, 39); // create trail
+          if (row < kMatrixHeight - 1) leds[deg(XY(col, row + 1))] = CRGB(175, 255, 175);
+        }
+      }
+    }
+
+    // fade all leds
+    for (int i = 0; i < NUM_LEDS; i++) {
+      if (leds[i].g != 255) leds[i].nscale8(192); // only fade trail
+    }
+
+    // check for empty screen to ensure code spawn
+    bool emptyScreen = true;
+    for (int i = 0; i < NUM_LEDS; i++) {
+      if (leds[i])
+      {
+        emptyScreen = false;
+        break;
+      }
+    }
+
+    // spawn new falling code
+    if (random8(3) == 0 || emptyScreen) // lower number == more frequent spawns
+    {
+      int8_t spawnX = random8(kMatrixWidth);
+      leds[deg(XY(spawnX, 0))] = CRGB(175, 255, 175 );
+    }
+  }
+}
+

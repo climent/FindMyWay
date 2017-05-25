@@ -55,6 +55,7 @@
 
 // Normal patterns
 functionList effectListOne[] = {
+  matrixConsole,
   fireworks,
   blurpattern,
   blurpattern2,
@@ -63,7 +64,6 @@ functionList effectListOne[] = {
   snow,
   waves,
   waves2,
-  //  waves3,
   xmasThreeDee,
   candycaneSlantbars,
   blurpattern,
@@ -77,6 +77,7 @@ functionList effectListOne[] = {
   colorFill,
   glitter,
   spinPlasma,
+//  waves3,
 };
 
 // Christmas patterns
